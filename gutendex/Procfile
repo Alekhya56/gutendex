@@ -1,1 +1,2 @@
-web: uvicorn gutendex.wsgi
+web: gunicorn gutendex.gutendex.wsgi:application
+
