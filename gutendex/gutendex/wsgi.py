@@ -13,6 +13,7 @@ import sys
 from django.core.wsgi import get_wsgi_application
 print("PYTHONPATH:", sys.path)
 print("Current directory:", os.getcwd())
+print("Files:", os.listdir())
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'gutendex.settings')
 
 application = get_wsgi_application()
