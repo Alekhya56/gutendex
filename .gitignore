@@ -1,0 +1,5 @@
+.pylintrc
+/gutendex/books/__pycache__
+/gutendex/books/migrations
+/gutendex/books/models/__pycache__
+/gutendex/gutendex/__pycache__
