@@ -5,3 +5,7 @@
 /gutendex/gutendex/__pycache__
 gutendex/db1.json
 gutendex/db2.json
+/books/__pycache__
+/books/migrations/__pycache__
+/books/models/__pycache__
+/gutendex/__pycache__
