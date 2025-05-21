@@ -12,6 +12,8 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 
 from pathlib import Path
 
+import dj_database_url
+import os
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -25,8 +27,7 @@ SECRET_KEY = 'django-insecure-ul2dyaha-06bfks9*a^o-=coqo19tkc!_mnxd!6477s&ar=uph
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['AlekhyaRavada.pythonanywhere.com']
-
+ALLOWED_HOSTS = ['AlekhyaRavada.onrender.com']
 
 
 # Application definition
@@ -76,15 +77,9 @@ WSGI_APPLICATION = 'gutendex.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
+
 DATABASES = {
-     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'gutenberg_db',
-        'USER': 'postgres',
-        'PASSWORD': '2256',
-        'HOST': 'localhost',
-        'PORT': '5432',
-    }
+    'default': dj_database_url.config(default=os.environ.get('DATABASE_URL'))
 }
 
 REST_FRAMEWORK = {
