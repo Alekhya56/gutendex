@@ -6,7 +6,7 @@ from rest_framework.response import Response
 from django.db.models import Q
 from .models import Books
 from .serializers import BookSerializer
-ALLOWED_QUERY_PARAMS = {'book_id', 'language', 'mime_type', 'topic', 'author', 'title', 'page'}
+
 
 class BookListAPIView(APIView):
     def _filter_by_book_ids(self, queryset, book_id_params):
@@ -59,6 +59,7 @@ class BookListAPIView(APIView):
     def get(self, request):
         """Handle GET request to list books with optional filtering and pagination."""
         try:
+            ALLOWED_QUERY_PARAMS = {'book_id', 'language', 'mime_type', 'topic', 'author', 'title', 'page'}
             # Validate query parameters
             if invalid_params := set(request.GET.keys()) - ALLOWED_QUERY_PARAMS:
                 raise ValidationError(detail=f"Invalid filter parameter(s): {', '.join(invalid_params)}. Choose from {', '.join(ALLOWED_QUERY_PARAMS)}")

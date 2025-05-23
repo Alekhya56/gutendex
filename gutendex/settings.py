@@ -27,7 +27,7 @@ SECRET_KEY = 'django-insecure-ul2dyaha-06bfks9*a^o-=coqo19tkc!_mnxd!6477s&ar=uph
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['gutendex.onrender.com']
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -78,8 +78,18 @@ WSGI_APPLICATION = 'gutendex.wsgi.application'
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
 
+from dotenv import load_dotenv
+load_dotenv()
+
 DATABASES = {
-    'default': dj_database_url.config(default=os.environ.get('DATABASE_URL'))
+     'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'gutenberg_db',
+        'USER': 'postgres',
+        'PASSWORD': '2256',
+        'HOST': 'localhost',
+        'PORT': '5432',
+    }
 }
 
 REST_FRAMEWORK = {
