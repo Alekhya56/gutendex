@@ -1,14 +1,22 @@
 # books/views.py
 
-from rest_framework.exceptions import NotFound, ValidationError
-from rest_framework.views import APIView
+from rest_framework.exceptions import ValidationError
+from rest_framework.generics import ListAPIView
 from rest_framework.response import Response
-from django.db.models import Q
+from django.db.models import Q, Prefetch
+from rest_framework.pagination import PageNumberPagination
 from .models import Books
 from .serializers import BookSerializer
 
+class StandardResultsSetPagination(PageNumberPagination):
+    page_size = 25
+    page_size_query_param = 'page_size'
+    max_page_size = 100
 
-class BookListAPIView(APIView):
+class BookListAPIView(ListAPIView):
+    serializer_class = BookSerializer
+    pagination_class = StandardResultsSetPagination
+    
     def _filter_by_book_ids(self, queryset, book_id_params):
         try:
             book_ids = [int(id.strip()) for id in book_id_params.split(',')]
@@ -56,16 +64,22 @@ class BookListAPIView(APIView):
             title_filter |= Q(title__icontains=title)
         return queryset.filter(title_filter).distinct()
 
-    def get(self, request):
+    def get_queryset(self):
+
         """Handle GET request to list books with optional filtering and pagination."""
         try:
+            # Apply filters
+            request = self.request
             ALLOWED_QUERY_PARAMS = {'book_id', 'language', 'mime_type', 'topic', 'author', 'title', 'page'}
             # Validate query parameters
+
             if invalid_params := set(request.GET.keys()) - ALLOWED_QUERY_PARAMS:
                 raise ValidationError(detail=f"Invalid filter parameter(s): {', '.join(invalid_params)}. Choose from {', '.join(ALLOWED_QUERY_PARAMS)}")
 
             queryset = Books.objects.all().order_by('-download_count')
-            
+            queryset = queryset.prefetch_related(
+            'authors', 'subjects', 'bookshelves', 'formats', 'languages'
+        )
             # Apply filters
             if request.GET.get('book_id'):
                 queryset = self._filter_by_book_ids(queryset, request.GET.get('book_id'))
@@ -74,21 +88,7 @@ class BookListAPIView(APIView):
             queryset = self._filter_by_topic(queryset, request.GET.get('topic'))
             queryset = self._filter_by_author(queryset, request.GET.get('author'))
             queryset = self._filter_by_title(queryset, request.GET.get('title'))
-
-            # Pagination
-            total = queryset.count()
-            page = int(request.GET.get('page', 1))
-            page_size = 25
-            start = (page - 1) * page_size
-            end = start + page_size
-
-            books = queryset[start:end]
-            serializer = BookSerializer(books, many=True)
-
-            return Response({
-                'total': total,
-                'results': serializer.data
-            })
+            return queryset.distinct()
         except ValidationError as ve:
             return Response({"error": str(ve)}, status=400)
         except Exception as e:
