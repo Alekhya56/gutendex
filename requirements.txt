@@ -32,3 +32,4 @@ tzdata==2025.2
 uritemplate==4.1.1
 uvicorn==0.34.2
 wfastcgi==3.0.0
+whitenoise==6.9.0
