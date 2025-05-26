@@ -82,14 +82,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 DATABASES = {
-     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'gutenberg_db',
-        'USER': 'postgres',
-        'PASSWORD': '2256',
-        'HOST': 'localhost',
-        'PORT': '5432',
-    }
+    'default': dj_database_url.config(default=os.environ.get('DATABASE_URL'))
 }
 
 REST_FRAMEWORK = {
