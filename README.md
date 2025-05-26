@@ -29,7 +29,7 @@ A RESTful API built using **Django** and **Django REST Framework** to serve book
 
 ## 📄 API Documentation
 
-Application is available at: http://127.0.0.1:8000/api/books/
+Application is available at: https://gutendex-voci.onrender.com/api/books/
 
 # 🔍 Filter & Search Examples
 
