@@ -6,6 +6,7 @@ dill==0.4.0
 dj-database-url==2.3.0
 Django==5.2.1
 djangorestframework==3.16.0
+dotenv==0.9.9
 gunicorn==23.0.0
 h11==0.16.0
 inflection==0.5.1
@@ -21,6 +22,7 @@ pylint-django==2.6.1
 pylint-plugin-utils==0.8.2
 pytest==8.3.5
 pytest-django==4.11.1
+python-dotenv==1.1.0
 pytz==2025.2
 PyYAML==6.0.2
 sqlparse==0.5.3
@@ -29,3 +31,4 @@ typing_extensions==4.13.2
 tzdata==2025.2
 uritemplate==4.1.1
 uvicorn==0.34.2
+wfastcgi==3.0.0
