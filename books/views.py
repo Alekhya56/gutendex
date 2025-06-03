@@ -70,7 +70,7 @@ class BookListAPIView(ListAPIView):
         try:
             # Apply filters
             request = self.request
-            ALLOWED_QUERY_PARAMS = {'book_id', 'language', 'mime_type', 'topic', 'author', 'title', 'page'}
+            ALLOWED_QUERY_PARAMS = {'book_id', 'language', 'mime_type', 'topic', 'author', 'title', 'page','page_size'}
             # Validate query parameters
 
             if invalid_params := set(request.GET.keys()) - ALLOWED_QUERY_PARAMS:
